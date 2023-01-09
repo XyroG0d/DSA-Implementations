@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 class GraphTraversal {
 
     public static List<List<Integer>> adjList;
+    public static boolean[] visited;
+    public static Stack<Integer> stack;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         adjList = new ArrayList<>();
@@ -18,15 +21,31 @@ class GraphTraversal {
         if(i==1) {
             traverseGraphUsingBFS();
         }
-        // else if(i==2) {
-        //     traverseGraphUsingDFS();
-        // }
+        else if(i==2) {
+            traverseGraphUsingDFS();
+        }
+    }
+
+    public static void traverseGraphUsingDFS() {
+        visited =new boolean[adjList.size()];
+        stack = new Stack<>();
+        DFSUtil(0);
+    }
+
+    public static void DFSUtil(int node) {
+        System.out.println(node+" ");
+        visited[node] = true;
+        for(int child: adjList.get(node)) {
+            if(!visited[child]) {
+                DFSUtil(child);
+            }
+        }
     }
 
     public static void traverseGraphUsingBFS() {
         Queue<Integer> queue= new LinkedList<>();
         queue.add(0);
-        boolean[] visited =new boolean[adjList.size()];
+        visited =new boolean[adjList.size()];
         while(!queue.isEmpty()) {
             int node = queue.remove();
             if(visited[node]) {
